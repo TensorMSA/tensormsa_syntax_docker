@@ -1,3 +1,5 @@
 # syntax_docker
 
-syntaxnet   docker  구성
+Syntaxnet
+Default Environment : python2.7
+Bazel Version : bazel-0.4.3
