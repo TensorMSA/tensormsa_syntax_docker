@@ -36,8 +36,12 @@ RUN mkdir -p $SYNTAXNETDIR/models/syntaxnet/work/corpus \
 
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
     && ./train.sh -v -v \
-    && ./train_p.sh -v -v \
-    && ./sejong/split.sh \
+    && ./train_p.sh -v -v
+    
+RUN cd $SYNTAXNETDIR/models/syntaxnet/work/sejong \
+    && ./split.sh \
+    
+RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
     && ./train_sejong.sh
 
 WORKDIR $SYNTAXNETDIR/models/syntaxnet/work
