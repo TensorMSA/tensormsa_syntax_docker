@@ -39,7 +39,7 @@ RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
     && ./train_p.sh -v -v
     
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work/sejong \
-    && ./split.sh \
+    && ./split.sh
     
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
     && ./train_sejong.sh
