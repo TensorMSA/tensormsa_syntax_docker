@@ -32,8 +32,8 @@ RUN mkdir -p $SYNTAXNETDIR/models/syntaxnet/work/corpus \
     && cd $SYNTAXNETDIR/models/syntaxnet/work/corpus \
     && wget --content-disposition 'https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-1548/ud-treebanks-v1.2.tgz?sequence=1&isAllowed=y' \
     && chmod +x ud-treebanks-v1.2.tgz \
-    && tar xf ud-treebanks-v1.2.tgz \
-
+    && tar xf ud-treebanks-v1.2.tgz
+    
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
     && ./train.sh -v -v \
     && ./train_p.sh -v -v
