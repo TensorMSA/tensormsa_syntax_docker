@@ -23,22 +23,22 @@ RUN cd $SYNTAXNETDIR/models/syntaxnet \
     && bazel test --genrule_strategy=standalone syntaxnet/... util/utf8/...
 	
 RUN cd $SYNTAXNETDIR/models/syntaxnet \
-	&& git clone --recursive https://github.com/dsindex/syntaxnet.git work \
+    && git clone --recursive https://github.com/dsindex/syntaxnet.git work \
 
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
-	&& ./parser_trainer_test.sh
+    && ./parser_trainer_test.sh
 	
 RUN mkdir -p $SYNTAXNETDIR/models/syntaxnet/work/corpus \
-	&& cd $SYNTAXNETDIR/models/syntaxnet/work/corpus \
-	&& wget --content-disposition 'https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-1548/ud-treebanks-v1.2.tgz?sequence=1&isAllowed=y' \
-	&& chmod +x ud-treebanks-v1.2.tgz \
-	&& tar xf ud-treebanks-v1.2.tgz \
+    && cd $SYNTAXNETDIR/models/syntaxnet/work/corpus \
+    && wget --content-disposition 'https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-1548/ud-treebanks-v1.2.tgz?sequence=1&isAllowed=y' \
+    && chmod +x ud-treebanks-v1.2.tgz \
+    && tar xf ud-treebanks-v1.2.tgz \
 
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
-  && ./train.sh -v -v \
-  && ./train_p.sh -v -v \
-  && ./sejong/split.sh \
-  && ./train_sejong.sh
+    && ./train.sh -v -v \
+    && ./train_p.sh -v -v \
+    && ./sejong/split.sh \
+    && ./train_sejong.sh
 
 WORKDIR $SYNTAXNETDIR/models/syntaxnet/work
 
