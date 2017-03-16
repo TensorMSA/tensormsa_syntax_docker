@@ -10,6 +10,7 @@ RUN mkdir -p $SYNTAXNETDIR \
     && pip install -U protobuf==3.0.0b2 \
     && pip install asciitree \
     && pip install numpy \
+    && pip install konlpy \
     && wget https://github.com/bazelbuild/bazel/releases/download/0.4.3/bazel-0.4.3-installer-linux-x86_64.sh \
     && chmod +x bazel-0.4.3-installer-linux-x86_64.sh \
     && ./bazel-0.4.3-installer-linux-x86_64.sh --user \
@@ -35,7 +36,9 @@ RUN mkdir -p $SYNTAXNETDIR/models/syntaxnet/work/corpus \
     && tar xf ud-treebanks-v1.2.tgz
     
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
-    && ./train.sh -v -v \
+    && ./train.sh -v -v 
+    
+RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
     && ./train_p.sh -v -v
     
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work/sejong \
