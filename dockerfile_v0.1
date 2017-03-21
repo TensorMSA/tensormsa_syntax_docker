@@ -35,7 +35,7 @@ RUN cd $SYNTAXNETDIR/models/syntaxnet \
     && bazel test --genrule_strategy=standalone syntaxnet/... util/utf8/...
 	
 RUN cd $SYNTAXNETDIR/models/syntaxnet \
-    && git clone --recursive https://github.com/dsindex/syntaxnet.git work \
+    && git clone --recursive https://github.com/dsindex/syntaxnet.git work
 
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
     && ./parser_trainer_test.sh
