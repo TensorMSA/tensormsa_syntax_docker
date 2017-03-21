@@ -2,34 +2,19 @@ FROM java:8
 MAINTAINER TaeYoung Lee <tylee33@poscoict.com>
 
 ENV SYNTAXNETDIR=/opt/tensorflow PATH=$PATH:/root/bin
-
-# Install uWSGI
-RUN pip install uwsgi
 ENV NGINX_VERSION 1.9.11-1~jessie
-RUN apt-get update
-RUN apt-get install -y ca-certificates nginx gettext-base vim
-# forward request and error logs to docker log collector
-RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log
-# Finished setting up Nginx
-
-# Make NGINX run on the foreground
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-# Copy the modified Nginx conf
-COPY nginx.conf /etc/nginx/conf.d/
-# Copy the base uWSGI ini file to enable default dynamic uwsgi process number
-COPY uwsgi.ini /etc/uwsgi/
-
 
 RUN mkdir -p $SYNTAXNETDIR \
     && cd $SYNTAXNETDIR \
     && apt-get update \
     && apt-get install git zlib1g-dev file swig python2.7 python-dev python-pip python-mock -y \
+    && RUN apt-get install -y ca-certificates nginx gettext-base vim \
     && pip install --upgrade pip \
     && pip install -U protobuf==3.0.0b2 \
     && pip install asciitree \
     && pip install numpy \
     && pip install konlpy \
+    && pip install uwsgi \
     && wget https://github.com/bazelbuild/bazel/releases/download/0.4.3/bazel-0.4.3-installer-linux-x86_64.sh \
     && chmod +x bazel-0.4.3-installer-linux-x86_64.sh \
     && ./bazel-0.4.3-installer-linux-x86_64.sh --user \
@@ -38,6 +23,13 @@ RUN mkdir -p $SYNTAXNETDIR \
     && echo -e "\n\n\n\n\n\n\n\n\n" | ./configure \
     && apt-get autoremove -y \
     && apt-get clean
+    
+# Make NGINX run on the foreground
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+# Copy the modified Nginx conf
+COPY nginx.conf /etc/nginx/conf.d/
+# Copy the base uWSGI ini file to enable default dynamic uwsgi process number
+COPY uwsgi.ini /etc/uwsgi/
 
 RUN cd $SYNTAXNETDIR/models/syntaxnet \
     && bazel test --genrule_strategy=standalone syntaxnet/... util/utf8/...
