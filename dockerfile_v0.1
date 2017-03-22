@@ -55,10 +55,10 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/conf.d/
 COPY ./app /app
 
-RUN cd $SYNTAXNETDIR/modles/syntaxnet.work \
+RUN cd $SYNTAXNETDIR/modles/syntaxnet/work \
     && pip install -r /app/requirements.txt
 
-COPY custom_parse.sh $SYNTAXNETDIR/models/syntaxnet/syntaxnet/
+COPY custom_parse.sh $SYNTAXNETDIR/models/syntaxnet/work
 RUN chmod 777 $SYNTAXNETDIR/models/syntaxnet/syntaxnet/custom_parse.sh
 EXPOSE 80 443 9000
 
