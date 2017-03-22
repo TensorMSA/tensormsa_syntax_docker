@@ -64,12 +64,10 @@ COPY custom_parse.sh $SYNTAXNETDIR/models/syntaxnet/syntaxnet
 RUN chmod 777 $SYNTAXNETDIR/models/syntaxnet/syntaxnet/custom_parse.sh
 EXPOSE 80 443 9000
 
-VOLUME ["/app/config","/models"]
+VOLUME ["/app/config","$SYNTAXNETDIR/models/syntaxnet/work"]
 WORKDIR /app
 RUN export LANG=C.UTF-8
 CMD ["/usr/bin/supervisord"]
-
-WORKDIR $SYNTAXNETDIR/models/syntaxnet/work
 
 # docker build -t tylee/kor_docker .
 # docker run -p 9000:9000 -d tylee/kor_docker 
