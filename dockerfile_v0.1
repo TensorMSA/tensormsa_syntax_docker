@@ -58,8 +58,6 @@ COPY ./app /app
 RUN cd $SYNTAXNETDIR/models/syntaxnet/work \
     && pip install -r /app/requirements.txt
 
-RUN mkdir /models
-
 COPY custom_parse.sh $SYNTAXNETDIR/models/syntaxnet/syntaxnet
 RUN chmod 777 $SYNTAXNETDIR/models/syntaxnet/syntaxnet/custom_parse.sh
 EXPOSE 80 443 9000
