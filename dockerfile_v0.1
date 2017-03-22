@@ -55,22 +55,19 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/conf.d/
 COPY ./app /app
 
-RUN pip install -r /app/requirements.txt
-RUN mkdir /models
+RUN cd $SYNTAXNETDIR/modles/syntaxnet.work \
+    && pip install -r /app/requirements.txt
 
-COPY custom_parse.sh /opt/tensorflow/models/syntaxnet/syntaxnet/
-RUN chmod 777 /opt/tensorflow/models/syntaxnet/syntaxnet/custom_parse.sh
+COPY custom_parse.sh $SYNTAXNETDIR/models/syntaxnet/syntaxnet/
+RUN chmod 777 $SYNTAXNETDIR/models/syntaxnet/syntaxnet/custom_parse.sh
 EXPOSE 80 443 9000
 
-VOLUME ["/app/config","/models"]
+VOLUME ["/app/config","$SYNTAXNETDIR/models/syntaxnet/work"]
 WORKDIR /app
 RUN export LANG=C.UTF-8
 CMD ["/usr/bin/supervisord"]
 
-# WORKDIR $SYNTAXNETDIR/models/syntaxnet/work
+WORKDIR $SYNTAXNETDIR/models/syntaxnet/work
 
-# COMMANDS to build and run
-# ===============================
-# mkdir build && cp Dockerfile build/ && cd build
-# docker build -t syntaxnet .
-# docker run syntaxnet
+# docker build -t tylee/kor_docker .
+# docker run -p 9000:9000 -d tylee/kor_docker 
